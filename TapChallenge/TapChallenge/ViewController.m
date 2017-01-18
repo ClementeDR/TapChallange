@@ -100,7 +100,7 @@
         NSString *message = [NSString stringWithFormat:@"Tuo punteggio %i", _tapsCount];
         UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:@"GAME OVER" message:message preferredStyle:UIAlertControllerStyleAlert];
        
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"RETRY" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self salvaRisultato];
             [self initializeGame];
             NSLog(@"okAction pressed");
@@ -113,6 +113,28 @@
 
     }
     
+}
+
+
+//tap gesture recognizer
+-(IBAction)tapGestureRecognizerDidRecognizeTap:(id)sender{
+    NSLog(@"tapGestureRecognizerDidRecognizeTap");
+    if (_endGame) {
+        [self initializeGame];
+        //  [self.tapButton setTitle:@"Press to start" forState:UIControlStateNormal];
+    }
+    
+    if(_gameTimer == nil){
+        _gameTimer = [NSTimer scheduledTimerWithTimeInterval:GameTimer target:self selector:@selector(timerTick) userInfo:nil repeats:true];
+        _endGame = false;
+        //  [self.tapButton setTitle:@"Press" forState:UIControlStateNormal];
+    }
+    
+    _tapsCount++;
+    
+    NSLog(@"TapsCount --> %i", _tapsCount);
+    [self.tapsCountLabel setText:[NSString stringWithFormat:@"%i", _tapsCount]];
+
 }
 
 #pragma mark - UI

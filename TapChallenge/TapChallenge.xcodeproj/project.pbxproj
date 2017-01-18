@@ -7,21 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB2BF9A41E2FB1CA00FA3739 /* ScoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2BF9A31E2FB1CA00FA3739 /* ScoreTableViewController.m */; };
 		AB4109911E291C92006EB6B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4109901E291C92006EB6B4 /* main.m */; };
 		AB4109941E291C92006EB6B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4109931E291C92006EB6B4 /* AppDelegate.m */; };
-		AB4109971E291C92006EB6B4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4109961E291C92006EB6B4 /* ViewController.m */; };
+		AB4109971E291C92006EB6B4 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4109961E291C92006EB6B4 /* GameViewController.m */; };
 		AB41099A1E291C92006EB6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB4109981E291C92006EB6B4 /* Main.storyboard */; };
 		AB41099C1E291C92006EB6B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB41099B1E291C92006EB6B4 /* Assets.xcassets */; };
 		AB41099F1E291C92006EB6B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB41099D1E291C92006EB6B4 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB2BF9A21E2FB1CA00FA3739 /* ScoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreTableViewController.h; sourceTree = "<group>"; };
+		AB2BF9A31E2FB1CA00FA3739 /* ScoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreTableViewController.m; sourceTree = "<group>"; };
 		AB41098C1E291C92006EB6B4 /* TapChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4109901E291C92006EB6B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AB4109921E291C92006EB6B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AB4109931E291C92006EB6B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		AB4109951E291C92006EB6B4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		AB4109961E291C92006EB6B4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		AB4109951E291C92006EB6B4 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		AB4109961E291C92006EB6B4 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		AB4109991E291C92006EB6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AB41099B1E291C92006EB6B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB41099E1E291C92006EB6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -60,13 +63,15 @@
 			children = (
 				AB4109921E291C92006EB6B4 /* AppDelegate.h */,
 				AB4109931E291C92006EB6B4 /* AppDelegate.m */,
-				AB4109951E291C92006EB6B4 /* ViewController.h */,
-				AB4109961E291C92006EB6B4 /* ViewController.m */,
+				AB4109951E291C92006EB6B4 /* GameViewController.h */,
+				AB4109961E291C92006EB6B4 /* GameViewController.m */,
 				AB4109981E291C92006EB6B4 /* Main.storyboard */,
 				AB41099B1E291C92006EB6B4 /* Assets.xcassets */,
 				AB41099D1E291C92006EB6B4 /* LaunchScreen.storyboard */,
 				AB4109A01E291C92006EB6B4 /* Info.plist */,
 				AB41098F1E291C92006EB6B4 /* Supporting Files */,
+				AB2BF9A21E2FB1CA00FA3739 /* ScoreTableViewController.h */,
+				AB2BF9A31E2FB1CA00FA3739 /* ScoreTableViewController.m */,
 			);
 			path = TapChallenge;
 			sourceTree = "<group>";
@@ -150,7 +155,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB4109971E291C92006EB6B4 /* ViewController.m in Sources */,
+				AB2BF9A41E2FB1CA00FA3739 /* ScoreTableViewController.m in Sources */,
+				AB4109971E291C92006EB6B4 /* GameViewController.m in Sources */,
 				AB4109941E291C92006EB6B4 /* AppDelegate.m in Sources */,
 				AB4109911E291C92006EB6B4 /* main.m in Sources */,
 			);
@@ -307,6 +313,7 @@
 				AB4109A51E291C92006EB6B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

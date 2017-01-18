@@ -6,26 +6,30 @@
 //  Copyright © 2017 Clemente Di Rosa. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "GameViewController.h"
+#import "ScoreTableViewController.h"
 
 #define GameTimer 1
-#define GameTime 10
+#define GameTime 30
 #define TapsCount "_tapsCount"
 #define FirstLog @"FirstLog"
 #define Defaults [NSUserDefaults standardUserDefaults]
 #define Results @"UserScore"
 
-@interface ViewController (){
+// per creare la doc si usano 3 "/" ->>> "///"
+
+@interface GameViewController (){
     int _tapsCount;
     NSTimer *_gameTimer;
     int _timeCount;
     bool _endGame;
+    UILabel *_newLavel;
     
 }
 
 @end
 
-@implementation ViewController
+@implementation GameViewController
 
 
 - (void)viewDidLoad {
@@ -36,15 +40,59 @@
     self.tapsCountLabel.minimumScaleFactor = 0.5;
     [self.tapsCountLabel setAdjustsFontSizeToFitWidth:true];
     [self initializeGame];
+    
+    self.title = @"Tap Challenge";
+    
+
+     
+    UIBarButtonItem *scoreButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(scoreButtonPressed)];
+
+    
+    self.navigationItem.rightBarButtonItem = scoreButtonItem;
+    
+    
+    //creare objView da codice
+//     _newLavel = [[UILabel alloc] initWithFrame:CGRectMake(10,100,100,40)];
+//
+//    [_newLavel setText:@"new laber"];
+//    
+//    [_newLavel setBackgroundColor:[UIColor greenColor]];
+//    [_newLavel setTextColor:[UIColor blackColor]];
+//    [_newLavel setFont:[UIFont boldSystemFontOfSize:16]];
+//    
+//    
+//    [self.view addSubview:_newLavel];
+
 }
 
 - (void) viewDidAppear:(BOOL)animated{
     
     [self showLastResult:[self risultato]];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    NSLog(@"%@", documentsPath);
 
+    [self resumeGame];
+    
+    
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsPath = [paths objectAtIndex:0];
+//    NSLog(@"%@", documentsPath);
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self pauseGame];
+}
+
+-(void)pauseGame{
+    if(_gameTimer != nil){
+        [_gameTimer invalidate];
+        _gameTimer = nil;
+    }
+}
+
+-(void)resumeGame{
+    if(_timeCount != 0 && _tapsCount > 0){
+       _gameTimer = [NSTimer scheduledTimerWithTimeInterval:GameTimer target:self selector:@selector(timerTick) userInfo:nil repeats:true];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,6 +111,27 @@
 
 #pragma mark - Actions
 
+-(void)scoreButtonPressed{
+   // UIViewController *viewController = [[UIViewController alloc] init];
+    
+   //  viewController.title = @"nuovo";
+    
+    
+    //prendo da storyboard il VC ScoreTableViewController
+    ScoreTableViewController *tableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ScoreTableViewController"];
+    
+    NSArray *resultsArray = [self risultato];
+    [tableViewController setScoresArray:resultsArray];
+    
+    
+    //instauro il collegamento tra GVC e SVC
+    tableViewController.delegate = self;
+    
+    
+    //pusho nello stack del navigationViewController
+    [self.navigationController pushViewController:tableViewController animated:true];
+}
+
 -(IBAction)buttonPressed:(id)sender{
     if (_endGame) {
         [self initializeGame];
@@ -77,7 +146,6 @@
     
     _tapsCount++;
     
-    NSLog(@"TapsCount --> %i", _tapsCount);
     [self.tapsCountLabel setText:[NSString stringWithFormat:@"%i", _tapsCount]];
 
 }
@@ -96,7 +164,6 @@
         [self.tapsCountLabel setText:[NSString stringWithFormat:@"Tuo punteggio %i", _tapsCount]];
         
         
-    
         NSString *message = [NSString stringWithFormat:@"Tuo punteggio %i", _tapsCount];
         UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:@"GAME OVER" message:message preferredStyle:UIAlertControllerStyleAlert];
        
@@ -132,7 +199,6 @@
     
     _tapsCount++;
     
-    NSLog(@"TapsCount --> %i", _tapsCount);
     [self.tapsCountLabel setText:[NSString stringWithFormat:@"%i", _tapsCount]];
 
 }
@@ -146,7 +212,7 @@
         [Defaults synchronize];
     } else{
         if (result.count > 0) {
-            NSNumber *number = result.lastObject;
+            NSNumber *number = result.firstObject;
              messageLastResult = [NSString stringWithFormat:@"Ultimo risultato %i", number.intValue];
         } else {
             messageLastResult = @"Non hai mai completato il gioco";
@@ -204,7 +270,7 @@
         if (value1 == value2) {
             return NSOrderedSame;
         } else {
-            if (value1 < value2) {
+            if (value1 > value2) {
                 return NSOrderedAscending;
             } else {
                 return NSOrderedDescending;
@@ -218,14 +284,11 @@
     [Defaults setObject:array2beSaved forKey:Results];
     [Defaults synchronize];
     
-    
-//    NSLog(@"Last value ---> %i", [self risultato]);
-//    [[NSUserDefaults standardUserDefaults] setInteger:_tapsCount forKey:@"_tapsCount"];
-//    
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-//    NSLog(@"New value saved");
-    
 }
 
+#pragma mark - ScoreTableViewDelegate
+-(NSArray *)ScoreTableViewFetchResults{
+    return [self risultato];
+}
 
 @end

@@ -7,10 +7,12 @@
 //
 
 #import "GameViewController.h"
+
 #import "ScoreTableViewController.h"
+#import "Result.h"
 
 #define GameTimer 1
-#define GameTime 30
+#define GameTime 10
 #define TapsCount "_tapsCount"
 #define FirstLog @"FirstLog"
 #define Defaults [NSUserDefaults standardUserDefaults]
@@ -24,6 +26,7 @@
     int _timeCount;
     bool _endGame;
     UILabel *_newLavel;
+    NSMutableArray<Result *> *result;
     
 }
 
@@ -35,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"viewDidLoad");
+    result = @[].mutableCopy;
+    
     // Do any additional setup after loading the view, typically from a nib.
     _endGame = true;
     self.tapsCountLabel.minimumScaleFactor = 0.5;
@@ -43,7 +48,6 @@
     
     self.title = @"Tap Challenge";
     
-
      
     UIBarButtonItem *scoreButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(scoreButtonPressed)];
 
@@ -66,8 +70,11 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    //codice vecchia versione
+  //  [self showLastResult:[self risultato]];
     
-    [self showLastResult:[self risultato]];
+    //new version
+    [self newShowLastResult];
 
     [self resumeGame];
     
@@ -118,10 +125,11 @@
     
     
     //prendo da storyboard il VC ScoreTableViewController
+    
     ScoreTableViewController *tableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ScoreTableViewController"];
     
-    NSArray *resultsArray = [self risultato];
-    [tableViewController setScoresArray:resultsArray];
+   // NSArray *resultsArray = [self risultato];
+    [tableViewController setScoresArray:result];
     
     
     //instauro il collegamento tra GVC e SVC
@@ -168,7 +176,10 @@
         UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:@"GAME OVER" message:message preferredStyle:UIAlertControllerStyleAlert];
        
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"RETRY" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self salvaRisultato];
+           // [self salvaRisultato];
+            
+            [self newSaveResult];
+            
             [self initializeGame];
             NSLog(@"okAction pressed");
         }];
@@ -204,6 +215,33 @@
 }
 
 #pragma mark - UI
+
+-(void)newShowLastResult{
+    NSString *messageLastResult;
+    if (![self firstAppear]){
+        messageLastResult = @"Primo avvio";
+        [Defaults setBool:true forKey:FirstLog];
+        [Defaults synchronize];
+    } else{
+        if (result.count > 0) {
+            Result *lastResult = result.lastObject;
+            messageLastResult = [NSString stringWithFormat:@"Ultimo risultato %@", lastResult.game];
+        } else {
+            messageLastResult = @"Non hai mai completato il gioco";
+        }
+    }
+    
+    UIAlertController *alertViewControllerLastResult = [UIAlertController alertControllerWithTitle:@"Hello" message:messageLastResult preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okActionLast = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    
+    [alertViewControllerLastResult addAction:okActionLast];
+    
+    [self presentViewController:alertViewControllerLastResult animated:true completion:nil];
+}
+
+///vecchio metodo per mostrare l'ultimo risultato
 - (void)showLastResult:(NSArray *)result{
     NSString *messageLastResult;
     if (![self firstAppear]){
@@ -231,7 +269,17 @@
 }
 
 #pragma mark - Persistenza
+///nuova funzione per ritornare l'ultimo elemento salvato in ram
+-(Result *)newLastResult{
+    if (result == nil) {
+        return nil;
+    } else {
+        return result[result.count - 1];
+    }
+}
 
+
+///vecchia funzione che ritorna i risultati salvati in persistenza
 - (NSArray *)risultato{
     NSArray *array = [Defaults objectForKey:Results];
     
@@ -244,6 +292,21 @@
 
 -(bool)firstAppear{
     return [[NSUserDefaults standardUserDefaults] boolForKey:FirstLog];
+}
+
+-(void)newSaveResult{
+    if (result == nil) {
+        result = @[].mutableCopy;
+    }
+   
+    NSLocale* currentLocale = [NSLocale currentLocale];
+    NSDate *date = [NSDate date];
+   
+    
+    Result *newResult = [[Result alloc] initWithResult:_tapsCount andDate:date];
+
+    [result addObject:newResult];
+
 }
 
 - (void)salvaRisultato{
@@ -287,8 +350,13 @@
 }
 
 #pragma mark - ScoreTableViewDelegate
--(NSArray *)ScoreTableViewFetchResults{
-    return [self risultato];
+-(NSMutableArray<Result*> *) ScoreTableViewFetchResults{
+    //vecchio codice
+   // return [self risultato];
+    
+    
+    //nuovo codice
+    return result;
 }
 
 @end

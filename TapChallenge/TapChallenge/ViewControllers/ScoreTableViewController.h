@@ -8,17 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Result.h"
+
 
 @protocol ScoreTableViewDelegate <NSObject>
 /// richiedo i risultati alla classe che conforma il mio protocollo
--(NSArray *)ScoreTableViewFetchResults;
+-(NSMutableArray<Result *> *)ScoreTableViewFetchResults;
 
 @end
 
 @interface ScoreTableViewController : UITableViewController
 
 
-@property (nonatomic, strong) NSArray *scoresArray;
+@property (nonatomic, strong) NSMutableArray<Result*> *scoresArray;
 
 @property (nonatomic, unsafe_unretained) id <ScoreTableViewDelegate> delegate;
 

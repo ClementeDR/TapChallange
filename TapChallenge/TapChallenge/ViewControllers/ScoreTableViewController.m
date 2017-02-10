@@ -54,9 +54,11 @@
     
     
     // Configure the cell...
-    NSString *string = [NSString stringWithFormat:@"Row %li - Score : %@", (long)indexPath.row + 1, self.scoresArray[indexPath.row]];
+    NSString *string = [NSString stringWithFormat:@"Row %li - Score : %ld Date : %@", (long)indexPath.row + 1, (long)self.scoresArray[indexPath.row].result, self.scoresArray[indexPath.row].date];
+    
     [cell.textLabel setText:string];
     [cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
+    
     if(indexPath.row == 0){
         [cell setBackgroundColor:[UIColor greenColor]];
     } else {
